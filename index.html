@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IRCTC Smart Clone</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="https://www.irctc.co.in/nget/assets/images/secondry-logo.png" alt="IRCTC Logo" />
+            <h1>IRCTC Smart Clone</h1>
+        </div>
+    </header>
+
+    <main>
+        <!-- Search Form -->
+        <section class="search-form">
+            <h2>Train Ticket Booking</h2>
+            <form id="train-search-form">
+                <div class="form-group">
+                    <label for="from">From</label>
+                    <input type="text" id="from" placeholder="Enter departure station" required />
+                </div>
+                <div class="form-group">
+                    <label for="to">To</label>
+                    <input type="text" id="to" placeholder="Enter arrival station" required />
+                </div>
+                <div class="form-group">
+                    <label for="date">Journey Date</label>
+                    <input type="date" id="date" required />
+                </div>
+                <div class="form-group">
+                    <label for="class">Class</label>
+                    <select id="class">
+                        <option value="SL">Sleeper (SL)</option>
+                        <option value="3A">3rd AC (3A)</option>
+                        <option value="2A">2nd AC (2A)</option>
+                        <option value="1A">1st AC (1A)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="quota">Quota</label>
+                    <select id="quota">
+                        <option value="GN">General</option>
+                        <option value="TQ">Tatkal</option>
+                    </select>
+                </div>
+                <button type="submit">Search Trains</button>
+            </form>
+        </section>
+
+        <!-- Train Results -->
+        <section id="train-results"></section>
+
+        <!-- Smart Suggestions Panel -->
+        <section id="smart-suggestions" class="hidden">
+            <h2>Smart Travel Suggestions</h2>
+            <div class="suggestions-grid">
+                <div class="suggestion-box">
+                    <h3>Top Tourist Attractions</h3>
+                    <ul id="tourist-places"></ul>
+                </div>
+                <div class="suggestion-box">
+                    <h3>Popular Hotels</h3>
+                    <ul id="hotels"></ul>
+                </div>
+                <div class="suggestion-box">
+                    <h3>Weather Info</h3>
+                    <p id="weather"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gamification Panel -->
+        <section id="gamification-section">
+            <h2>Your Rewards</h2>
+            <div class="gamify-box">
+                <p><strong>Points:</strong> <span id="points">0</span></p>
+                <p><strong>Badges:</strong> <span id="badges">None</span></p>
+                <p><strong>Motivation:</strong> <span id="motivation">Let’s get booking!</span></p>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard-section">
+            <h2>User Dashboard</h2>
+            <div class="dashboard-box">
+                <p><strong>Total Bookings:</strong> <span id="dash-bookings">0</span></p>
+                <p><strong>Most Recent Booking:</strong> <span id="dash-recent">None</span></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 IRCTC Smart Clone - Hackathon Project</p>
+    </footer>
+
+    <!-- Chatbot Assistant -->
+    <div id="chatbot-toggle">💬</div>
+    <div id="chatbot-container" class="hidden">
+        <div id="chatbot-header">Assistant 🤖 <span id="close-chatbot">×</span></div>
+        <div id="chat-messages"></div>
+        <div id="chatbot-input">
+            <input type="text" id="chat-input" placeholder="Ask me anything..." />
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

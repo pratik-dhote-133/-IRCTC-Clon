@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gamified Reward Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            padding: 20px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            width: 100%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 40px 20px;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .points,
+        .badges,
+        .milestones {
+            text-align: center;
+        }
+
+        .points h2,
+        .badges h2,
+        .milestones h2 {
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+            border-bottom: 1px solid #ffffff33;
+            padding-bottom: 5px;
+        }
+
+        .points .value {
+            font-size: 3rem;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .level {
+            font-size: 1.5rem;
+            color: #00dfc4;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .badge-list {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .badge {
+            background: #222;
+            padding: 10px 15px;
+            border-radius: 12px;
+            border: 2px solid #ffd700;
+            font-size: 1rem;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .milestone {
+            margin: 10px 0;
+            background: #1f2937;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border-left: 5px solid #00dfc4;
+            text-align: left;
+        }
+
+        .milestone.completed {
+            border-left-color: #00ff88;
+            background: #2a4540;
+        }
+
+        .milestone p {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        @media(max-width: 768px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .back-btn {
+            margin: 30px 0;
+            background: #00dfc4;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            color: #000;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #00bfa4;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>🎯 Your Reward Dashboard</h1>
+    </header>
+
+    <div class="dashboard-container">
+        <!-- Points and Level -->
+        <div class="card points">
+            <h2>Total Points</h2>
+            <div class="value" id="points">0</div>
+            <div class="level" id="level">Level 1</div>
+        </div>
+
+        <!-- Earned Badges -->
+        <div class="card badges">
+            <h2>Earned Badges</h2>
+            <div class="badge-list" id="badges">
+                <p>No badges yet.</p>
+            </div>
+        </div>
+
+        <!-- Milestones -->
+        <div class="card milestones">
+            <h2>Milestones</h2>
+            <div id="milestone-list">
+                <p>No milestones achieved yet.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <a class="back-btn" href="index.html">← Back to Main App</a>
+
+    <!-- Script to Load Data -->
+    <script>
+        function updateDashboard() {
+            const points = parseInt(localStorage.getItem('points')) || 0;
+            const level = Math.floor(points / 100) + 1;
+            const badges = JSON.parse(localStorage.getItem('badges') || '[]');
+            const milestones = JSON.parse(localStorage.getItem('milestones') || '[]');
+
+            // Points & Level
+            document.getElementById('points').textContent = points;
+            document.getElementById('level').textContent = `Level ${level}`;
+
+            // Badges
+            const badgeContainer = document.getElementById('badges');
+            badgeContainer.innerHTML = '';
+            if (badges.length > 0) {
+                badges.forEach(badge => {
+                    const badgeDiv = document.createElement('div');
+                    badgeDiv.className = 'badge';
+                    badgeDiv.textContent = badge;
+                    badgeContainer.appendChild(badgeDiv);
+                });
+            } else {
+                badgeContainer.innerHTML = '<p>No badges earned yet.</p>';
+            }
+
+            // Milestones
+            const milestoneList = document.getElementById('milestone-list');
+            milestoneList.innerHTML = '';
+            if (milestones.length > 0) {
+                milestones.forEach(m => {
+                    const milestoneDiv = document.createElement('div');
+                    milestoneDiv.className = `milestone${m.completed ? ' completed' : ''}`;
+                    milestoneDiv.innerHTML = `<p>${m.title}</p>`;
+                    milestoneList.appendChild(milestoneDiv);
+                });
+            } else {
+                milestoneList.innerHTML = '<p>No milestones yet.</p>';
+            }
+        }
+
+        // Initialize Dashboard
+        updateDashboard();
+    </script>
+</body>
+
+</html>
